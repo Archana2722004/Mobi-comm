@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>per-day</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f8e6f8;
+            color: #333;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            border-color: #0f0f0f;
+            background: white;
+            min-width: 150px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            border-color: #0f0f0f;
+            background-color: rgb(251, 243, 250);
+            display: block;
+        }
+
+        .dropdown-content a {
+            background-color: rgb(247, 236, 247);
+            padding: 10px;
+            display: block;
+            border-color: #0f0f0f;
+            color: #1a181a;
+
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 150px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            padding: 10px;
+            display: block;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background: #9c2f9c;
+        }
+
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(to right, #d19acb, #c24ba1);
+            padding: 15px;
+            display: flex;  
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .nav-button {
+            padding: 10px;
+            border: none;
+            border-radius: 15px;
+            height: 30px;
+            width: 120px;
+            cursor: pointer;
+            background: white;
+            color: #333;
+            font-weight: bold;
+        }
+        .nav-button:hover {
+            background-color: #5a0341;
+            color: white;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        /* Sidebar for Categories */
+        .sidebar {
+            width: 250px;
+            background: #d19acb;
+            padding: 20px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .category-box {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+        .category-box:hover {
+            background: #c24ba1;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding-left: 20px;
+        }
+        .title {
+            font-weight: bold;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Recharge Plans Grid */
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+        }
+        .plan-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .plan-box h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .plan-box p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .plan-box button {
+            background-color: #f373cf;
+            color: rgb(8, 8, 8);
+            padding: 10px;
+            width: 100px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+        }
+        .plan-box button:hover {
+            background-color: #c24ba1;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #c24ba1;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: left;
+            width: 100%;
+        }
+        .footer div {
+            padding: 10px;
+        }
+        .footer h4 {
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer ul li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <button class="nav-button"  onclick="window.location.href ='front page.html'">Home</button>
+
+
+            <div class="dropdown">
+                <button class="nav-button">Plans ▼</button>
+                <div class="dropdown-content">
+
+                    <a href="per-month.html" onclick="showPlans('perMonth')">Per Month</a>
+                    <a href="per-year.html" onclick="showPlans('perYear')">Per Year</a>
+                    <a href="per-day.html" onclick="showPlans('perDay')">Per Day</a>
+
+                </div>
+            </div>
+
+
+            <button class="nav-button">Recharge</button>
+            <button class="nav-button">Support</button>
+            <input type="text" class="search-bar" placeholder="Search">
+            <button class="search-icon">🔍</button>
+            <img src="https://shorturl.at/5Yy7H" style="width: 30px; height: 30px;">
+            <button class="nav-button">Profile</button>
+        </nav>
+    </header>
+
+   
+
+    <div class="container">
+        <!-- Sidebar for Plan Categories -->
+        <div class="sidebar">
+            <h2>Plan Categories</h2>
+            <div class="category-box" onclick="window.location.href='top-up plan.html'">Top-up Plan</div>
+            <div class="category-box"onclick="window.location.href='Unlimited plan.html'">Unlimited Plan</div>
+            <div class="category-box" onclick="window.location.href='offer plan.html'">Offer Plan</div>
+            <div class="category-box" onclick="window.location.href='Popular plan.html'">Popular Plan</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1 class="title">Recharge Plans(Per Day)</h1>
+            <p style="text-align: center;">Choose the best recharge plan that fits your needs.</p>
+
+            <!-- Plans Section -->
+            <div class="plans-container">
+                <div class="plan-box">
+                    <h3>1GB Data</h3>
+                    <p>Price: ₹15</p>
+                    <p>Validity: 1 Day</p>
+                    <button onclick="showPopup('1GB', 15)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>1.5GB Data</h3>
+                    <p>Price: ₹20</p>
+                    <p>Validity: 1 Day</p>
+                    <button onclick="showPopup('1.5GB', 20)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>2GB Data</h3>
+                    <p>Price: ₹25</p>
+                    <p>Validity: 1 Day</p>
+                    <button onclick="showPopup('2GB', 25)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>2.5GB Data</h3>
+                    <p>Price: ₹30</p>
+                    <p>Validity: 1 Day</p>
+                    <button onclick="showPopup('2.5 GB', 30)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>3GB Data</h3>
+                    <p>Price: ₹35</p>
+                    <p>Validity: 1 Days</p>
+                    <button onclick="showPopup('3GB', 35)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>3.5GB Data</h3>
+                    <p>Price: ₹40</p>
+                    <p>Validity: 1 Days</p>
+                    <button onclick="showPopup('3.5GB', 40)">Recharge</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div>
+            <h4>Company Information</h4>
+            <ul>
+                <li>About Us</li>
+                <li>Careers</li>
+                <li>Business Partnerships</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Customer Support</h4>
+            <ul>
+                <li>Contact Us</li>
+                <li>Help Center</li>
+                <li>Track Recharge Status</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Social Media Links</h4>
+            <ul>
+                <li>Facebook</li>
+                <li>Twitter</li>
+                <li>Instagram</li>
+                <li>LinkedIn</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Legal & Policies</h4>
+            <ul>
+                <li>Terms & Conditions</li>
+                <li>Privacy Policy</li>
+                <li>Refund & Cancellation</li>
+            </ul>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <p class="mb-0">© 2025 Mobi-Comm Service Ltd. All Rights Reserved.</p>
+                <p class="mb-0">
+                    <a href="#" class=" text-decoration-none">Press Release</a> |
+                    <a href="#" class=" text-decoration-none">Regulatory</a> |
+                    <a href="#" class=" text-decoration-none">Policies</a> |
+                    <a href="#" class=" text-decoration-none">Terms & Conditions</a>
+                </p>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+    <script>
+        function showPopup(plan, price) {
+            alert(`You have selected the ${plan} plan for ₹${price}. Proceed to payment.`);
+        }
+    </script>
+
+</body>
+</html>

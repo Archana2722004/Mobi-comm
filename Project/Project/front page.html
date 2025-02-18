@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobi-Comm</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8e6f8;
+            text-align: center;
+            color: #333;
+        }
+
+        .nav-button {
+            padding: 10px;
+            border: none;
+            border-radius: 15px;
+            height: 35px;
+            width: 120px;
+            cursor: pointer;
+            background: white;
+            color: #333;
+            font-weight: bold;
+            border: 1px solid black;
+        }
+
+        .nav-button:hover {
+            background: #5a0341;
+            color: white;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #d19acb, #c24ba1);
+
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+        }
+
+        .nav-button,
+        .search-bar,
+        .search-icon :hover {
+
+            padding: 10px;
+            border: none;
+            border-radius: 15px;
+            height: 30px;
+            width: 120px;
+            cursor: pointer;
+        }
+
+        .nav-button :hover {
+            background: white;
+            color: #0f0f0f;
+            font-weight: bold;
+            border: black solid 1px;
+        }
+
+        .search-bar {
+            width: 200px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-style: italic;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+
+        .carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #d19acb;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .carousel img {
+            width: 70%;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .carousel img.active {
+            display: block;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 150px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            padding: 10px;
+            display: block;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background: #9c2f9c;
+        }
+
+        .title {
+            font-weight: bold;
+            font-style: italic;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+
+        .arrow {
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .arrow-left {
+            left: 10px;
+        }
+
+        .arrow-right {
+            right: 10px;
+        }
+
+        .recharge-box {
+
+            background: rgb(250, 245, 245);
+            padding: 30px;
+            width: 350px;
+            margin: 30px auto;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .recharge-button {
+            background-color: #f373cf;
+            color: rgb(8, 8, 8);
+            padding: 12px;
+            width: 100%;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: #c24ba1;
+            color: white;
+            padding: 20px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: left;
+            width: 100%;
+        }
+
+        .footer div {
+            padding: 10px;
+        }
+
+        .footer h4 {
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 5px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            border-color: #0f0f0f;
+            background: white;
+            min-width: 150px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            border-color: #0f0f0f;
+            background-color: rgb(251, 243, 250);
+            display: block;
+        }
+
+        .dropdown-content a {
+            background-color: rgb(247, 236, 247);
+            padding: 10px;
+            display: block;
+            border-color: #0f0f0f;
+            color: #1a181a;
+
+            cursor: pointer;
+        }
+
+        /* Navbar stays fixed at the top */
+        .navbar {
+            background: linear-gradient(to right, #d19acb, #c24ba1);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            /* Ensures it's always on top */
+        }
+
+        /* To avoid content getting hidden under the navbar */
+        body {
+            padding-top: 60px;
+            /* Adjust based on navbar height */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <img src=""
+            <button class="nav-button"  onclick="window.location.href ='front page.html'">Home</button>
+
+
+            <div class="dropdown">
+                <button class="nav-button">Plans ▼</button>
+                <div class="dropdown-content">
+
+                    <a href="per-month.html" onclick="showPlans('perMonth')">Per Month</a>
+                    <a href="per-year.html" onclick="showPlans('perYear')">Per Year</a>
+                    <a href="per-day.html" onclick="showPlans('perDay')">Per Day</a>
+
+                </div>
+            </div>
+
+
+            <button class="nav-button">Recharge</button>
+            <button class="nav-button">Support</button>
+            <input type="text" class="search-bar" placeholder="Search">
+            <button class="search-icon">🔍</button>
+            <img src="https://shorturl.at/5Yy7H" style="width: 30px; height: 30px;">
+            <button class="nav-button">Profile</button>
+        </nav>
+    </header>
+    <main>
+        <h1 class="title">Welcome to Mobi-Comm !!!</h1>
+        <div class="recharge-box">
+            <label for="mobile" class="label">Mobile number</label>
+            <input type="text" id="mobile" class="input-field" placeholder="+91" oninput="validateMobile()">
+            <button class="recharge-button">Recharge</button>
+
+            <span id="error-message" class="error-message">Please enter a valid 10-digit mobile number.</span>
+        </div>
+
+        <div class="carousel">
+            <button class="arrow arrow-left" onclick="prevSlide()">&#10094;</button>
+            <img src="./offer1.jpg" class="active" alt="Recharge on the Fly">
+            <img src="./offfer3.jpg" class="active" alt="Another Recharge Offer">
+            <img src="offer4.png" alt="Special Deals">
+           
+            <button class="arrow arrow-right" onclick="nextSlide()">&#10095;</button>
+        </div>
+
+
+    </main>
+    <footer class="footer">
+        <div>
+            <h4>Company Information</h4>
+            <ul>
+                <li>About Us</li>
+                <li>Careers</li>
+                <li>Business Partnerships</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Customer Support</h4>
+            <ul>
+                <li>Contact Us</li>
+                <li>Help Center</li>
+                <li>Track Recharge Status</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Social Media Links</h4>
+            <ul>
+                <li>Facebook</li>
+                <li>Twitter</li>
+                <li>Instagram</li>
+                <li>LinkedIn</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Legal & Policies</h4>
+            <ul>
+                <li>Terms & Conditions</li>
+                <li>Privacy Policy</li>
+                <li>Refund & Cancellation</li>
+            </ul>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <p class="mb-0">© 2025 Mobi-Comm Service Ltd. All Rights Reserved.</p>
+                <p class="mb-0">
+                    <a href="#" class=" text-decoration-none">Press Release</a> |
+                    <a href="#" class=" text-decoration-none">Regulatory</a> |
+                    <a href="#" class=" text-decoration-none">Policies</a> |
+                    <a href="#" class=" text-decoration-none">Terms & Conditions</a>
+                </p>
+            </div>
+        </div>
+        </div>
+    </footer>
+    <script>
+        let currentIndex = 0;
+        const images = document.querySelectorAll(".carousel img");
+
+        function showSlide(index) {
+            images.forEach(img => img.classList.remove("active"));
+            images[index].classList.add("active");
+        }
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showSlide(currentIndex);
+        }
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showSlide(currentIndex);
+        }
+        setInterval(nextSlide, 3000);
+        function validateMobile() {
+            let mobileInput = document.getElementById("mobileNumber").value;
+            let errorMessage = document.getElementById("error-message");
+            let mobilePattern = /^[6-9]\d{9}$/; // Ensures 10 digits and starts with 6-9
+
+            if (!mobilePattern.test(mobileInput)) {
+                errorMessage.style.display = "block";
+                return false;
+            } else {
+                errorMessage.style.display = "none";
+                return true;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

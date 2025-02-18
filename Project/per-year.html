@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>per-day</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f8f8;
+            text-align: center;
+            color: #373E40;
+            padding-top: 70px;
+            /* Prevent content from being hidden under navbar */
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #488286, #B7D5D4);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            /* Ensures it's always on top */
+        }
+
+        .navbar-logo {
+            width: 50px;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-button {
+            padding: 10px 15px;
+            border: none;
+           
+            background: #ffffff;
+            color: #004d40;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #00796b;
+            color: white;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 150px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #004d40;
+            background: white;
+        }
+
+        .dropdown-content a:hover {
+            background: #00796b;
+            color: white;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 20px;
+            padding: 5px;
+        }
+
+        .search-bar {
+            border: none;
+            padding: 5px;
+            outline: none;
+            width: 150px;
+            background: transparent;
+        }
+
+        .search-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #004d40;
+            font-size: 18px;
+        }
+        /* Layout */
+        .container {
+            display: flex;
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        /* Sidebar for Categories */
+        .sidebar {
+            width: 250px;
+            background: #c7d1d1; /* Teal sidebar */
+            padding: 20px;
+            border-radius: 10px;
+            height: fit-content;
+        }
+        .sidebar h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .category-box {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+        .category-box:hover {
+            background: #375f52;
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding-left: 20px;
+            
+        }
+        .title {
+            font-weight: bold;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Recharge Plans Grid */
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 20px auto;
+        }
+        .plan-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .plan-box h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .plan-box p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .plan-box button {
+            background-color: #488286; /* Teal button */
+            color: white;
+            padding: 10px;
+            width: 100px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+        }
+        .plan-box button:hover {
+            background-color: #375f52; /* Darker teal on hover */
+        }
+
+        .footer {
+            background-color: #B7D5D4;
+            color: rgb(29, 28, 28);
+            padding: 10px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            text-align: left;
+            width: 100%;
+        }
+
+        .footer div {
+            padding: 10px;
+        }
+
+        .footer h4 {
+            margin-bottom: 10px;
+            
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 5px;
+        }
+        .b{
+           
+            padding-left: 180px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <img src="Mobi-comm_image-removebg-preview.png" class="navbar-logo">
+
+            <div class="nav-links">
+                <button class="nav-button" onclick="window.location.href='front page.html'">Home</button>
+
+                <div class="dropdown">
+                    <button class="nav-button">Plans ▼</button>
+                    <div class="dropdown-content">
+                        <a href="per-month.html">Per Month</a>
+                        <a href="per-year.html">Per Year</a>
+                        <a href="per-day.html">Per Day</a>
+                    </div>
+                </div>
+
+                <button class="nav-button">Recharge</button>
+                <div class="dropdown">
+                    <button class="nav-button">Support ▼</button>
+                    <div class="dropdown-content">
+                        <a href="contact us.html">📞 Contact Us</a>
+                        <a href="faq.html">❓ FAQ</a>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-bar" placeholder="Search">
+                <button class="search-icon">🔍</button>
+            </div>
+            <button class="nav-button profile-button" onclick="window.location.href='profile.html'">
+                <span class="profile-icon">👤</span>Profile
+            </button>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar for Plan Categories -->
+        <div class="sidebar">
+            <h2>Plan Categories</h2>
+            <div class="category-box" onclick="window.location.href='top-up plan.html'">Top-up Plan</div>
+            <div class="category-box"onclick="window.location.href='Unlimited plan.html'">Unlimited Plan</div>
+            <div class="category-box" onclick="window.location.href='offer plan.html'">Offer Plan</div>
+            <div class="category-box" onclick="window.location.href='Popular plan.html'">Popular Plan</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1 class="title">Recharge Plans (Per Year)</h1>
+            <p style="text-align: center;">Choose the best yearly recharge plan that fits your needs.</p>
+            
+            <div class="plans-container">
+                <div class="plan-box">
+                    <h3>1GB Data</h3>
+                    <p>Price: ₹1000</p>
+                    <p>Validity: 365 Days</p>
+                    <button onclick="showPopup('1GB', 1000)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>1.5GB Data</h3>
+                    <p>Price: ₹1500</p>
+                    <p>Validity: 365 Days</p>
+                    <button onclick="showPopup('1.5GB', 1500)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>2GB Data</h3>
+                    <p>Price: ₹2000</p>
+                    <p>Validity: 365 Days</p>
+                    <button onclick="showPopup('2GB', 2000)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>2.5GB Data</h3>
+                    <p>Price: ₹2800</p>
+                    <p>Validity: 365 Days</p>
+                    <button onclick="showPopup('2.5GB', 2800)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>3GB Data</h3>
+                    <p>Price: ₹3000</p>
+                    <p>Validity: 365 Days</p>
+                    <button onclick="showPopup('3GB', 3000)">Recharge</button>
+                </div>
+                <div class="plan-box">
+                    <h3>3.5GB Data</h3>
+                    <p>Price: ₹3500</p>
+                    <p>Validity: 365 Days</p>
+                    <button onclick="showPopup('3.5GB', 3500)">Recharge</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+   <footer class="footer">
+        <div>
+            <h4>Company</h4>
+            <ul>
+                <li>About Us</li>
+                <li>Careers</li>
+                <li>Partnerships</li>
+                <li>Press & Media</li>
+                <li>Sustainability</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Support</h4>
+            <ul>
+                <li>Contact</li>
+                <li>Help Center</li>
+                <li>Track Status</li>
+                <li>FAQ</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Social</h4>
+            <ul>
+                <li>Facebook</li>
+                <li>Twitter</li>
+                <li>Instagram</li>
+                <li>LinkedIn</li>
+                <li>YouTube</li>
+            </ul>
+        </div>
+        <div>
+            <h4>Legal</h4>
+            <ul>
+                <li>Terms</li>
+                <li>Privacy</li>
+                <li>Refunds</li>
+                <li>Cookie Policy</li>
+            </ul>
+        </div>
+       
+        <div>
+            <p style="text-align: center;">© 2025 Mobi-Comm. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPopup(plan, price) {
+            alert(`You have selected the ${plan} plan for ₹${price}. Proceed to payment.`);
+        }
+    </script>
+
+</body>
+</html>

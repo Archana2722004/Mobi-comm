@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Mobi-Comm</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f0f8f8; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { color: #1b5b6b; }
+        .faq { text-align: left; margin: 10px 0; }
+        .question { font-weight: bold; color: #00796b; cursor: pointer; margin-top: 10px; }
+        .answer { display: none; padding: 5px; border-left: 3px solid #00796b; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>❓ Frequently Asked Questions</h2>
+        <div class="faq">
+            <p class="question" onclick="toggleAnswer(0)">🔹 How to recharge my number?</p>
+            <p class="answer">Go to the Recharge section, enter your number, choose a plan, and proceed with payment.</p>
+            
+            <p class="question" onclick="toggleAnswer(1)">🔹 What if my recharge fails?</p>
+            <p class="answer">You will receive a refund within 24 hours. Contact support for further help.</p>
+            
+            <p class="question" onclick="toggleAnswer(2)">🔹 How can I check my balance?</p>
+            <p class="answer">Dial *123# or check the balance section in your profile.</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(index) {
+            let answers = document.querySelectorAll('.answer');
+            answers[index].style.display = (answers[index].style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>

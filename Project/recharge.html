@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f8f8;
+            text-align: center;
+            color: #373E40;
+            padding-top: 50px;
+        }
+
+        h1 {
+            color: #004d40;
+            margin-bottom: 20px;
+        }
+
+        .payment-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px auto;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .payment-container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .payment-container .amount {
+            font-size: 24px;
+            color: #488286;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            background-color: #488286;
+            color: white;
+            font-size: 16px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .payment-option:hover {
+            background-color: #375f52;
+        }
+
+        .confirm-payment {
+            background-color: #375f52;
+            color: white;
+            font-size: 18px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .confirm-payment:hover {
+            background-color: #004d40;
+        }
+
+        footer {
+            background-color: #B7D5D4;
+            color: rgb(29, 28, 28);
+            padding: 10px;
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payment Page</h1>
+    <div class="payment-container">
+        <p>You're about to pay for the <strong id="plan-name"></strong> plan.</p>
+        <p>Amount: ₹<span id="plan-price"></span></p>
+
+        <div class="payment-options">
+            <button class="payment-option">Credit/Debit Card</button>
+            <button class="payment-option">UPI</button>
+            <button class="payment-option">Wallet (Paytm, Google Pay)</button>
+            <button class="payment-option">Net Banking</button>
+        </div>
+
+        <button class="confirm-payment" onclick="confirmPayment()">Confirm Payment</button>
+    </div>
+
+    <footer>
+        <p>© 2025 Mobi-Comm. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Get the URL parameters from the previous page (Recharge page)
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan');
+        const price = urlParams.get('price');
+
+        // Display the plan and price
+        document.getElementById('plan-name').innerText = plan;
+        document.getElementById('plan-price').innerText = price;
+
+        function confirmPayment() {
+            alert(`Payment of ₹${price} for the ${plan} plan is confirmed. Proceeding to payment gateway...`);
+        }
+    </script>
+</body>
+</html>
