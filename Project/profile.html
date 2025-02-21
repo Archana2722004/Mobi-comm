@@ -4,50 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Mobi-Comm</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mobi-Comm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
     <header>
-        <nav class="navbar">
-            <img src="Mobi-comm_image-removebg-preview.png" class="navbar-logo">
-
-            <div class="nav-links">
-                <button class="nav-button" onclick="window.location.href='front_page.html'">Home</button>
-                <button class="nav-button" onclick="window.location.href='login.html'">Login</button>
-
-                <div class="dropdown">
-                    <button class="nav-button">Plans ▼</button>
-                    <div class="dropdown-content">
-                        <a href="per-month.html">Per Month</a>
-                        <a href="per-year.html">Per Year</a>
-                        <a href="per-day.html">Per Day</a>
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="Mobi-comm_image-removebg-preview.png" alt="Mobi-Comm Logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="front page.html">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Plans
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="per-month.html">Per Month</a></li>
+                                <li><a class="dropdown-item" href="per-year.html">Per Year</a></li>
+                                <li><a class="dropdown-item" href="per-day.html">Per Day</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="recharge-box.html">Recharge</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownSupport" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Support
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownSupport">
+                                <li><a class="dropdown-item" href="contact us.html"><i class="bi bi-telephone-fill"></i>
+                                        Contact Us</a></li>
+                                <li><a class="dropdown-item" href="faq.html"><i class="bi bi-question-circle-fill"></i>
+                                        FAQ</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="search-container ms-3">
+                        <input type="text" class="search-bar" placeholder="Search">
+                        <button class="btn" type="button">
+                            <i class="bi bi-search" style="color:#004d40"></i>
+                        </button>
                     </div>
+                    <button class="btn btn-outline-light ms-3" onclick="window.location.href='profile.html'">
+                        <i class="bi bi-person-fill"></i> Profile
+                    </button>
                 </div>
-
-                <button class="nav-button">Recharge</button>
-                <button class="nav-button">Support</button>
             </div>
-
-            <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search">
-                <button class="search-icon">🔍</button>
-            </div>
-            <button class="nav-button profile-button" onclick="window.location.href='profile.html'">
-                <span class="profile-icon">👤</span>Profile
-            </button>
         </nav>
     </header>
 
+
+
     <main>
         <div class="login-container">
-            <h2 class="login-title">Login with Mobile Number</h2>
+       
+
+            <div class="role-buttons">
+                <button class="role-button" onclick="selectRole('user')">User</button>
+                <button class="role-button" onclick="selectRole('admin')">Admin</button>
+            </div>
+           
+            <form id="user-login-form" class="login-form" onsubmit="return validateLogin()">
+                <div class="input-group">
+                    <label for="mobile">Mobile 📱</label><br>
+                    <input type="text" id="mobile" class="input-field" placeholder="Enter your mobile number" required>
+                    <span id="mobile-error" class="error-message"></span>
+                </div>
+
+                <div class="input-group" id="otp-group" style="display: none;">
+                    <label for="otp">OTP</label>
+                    <input type="text" id="otp" class="input-field" placeholder="Enter OTP" required>
+                    <span id="otp-error" class="error-message"></span>
+                </div>
+
+                <button type="button" class="login-button" id="send-otp-btn" onclick="sendOTP()">Send OTP</button>
+                <button type="submit" class="login-button" id="login-btn" style="display: none;">Login</button>
+            </form>
+
+            <!-- Admin Login Form -->
+            <form id="admin-login-form" class="login-form" onsubmit="return validateAdminLogin()">
+                <div class="input-group">
+                    <label for="admin-username">Username</label>
+                    <input type="text" id="admin-username" class="input-field" placeholder="Enter admin username"
+                        required>
+                </div>
+                <div class="input-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" class="input-field" placeholder="Enter password"
+                        required>
+                </div>
+                <button type="submit" class="login-button">Admin Login</button>
+            </form>
+
+
+
 
             <form id="login-form" class="login-form" onsubmit="return validateLogin()">
                 <!-- Mobile Number -->
                 <div class="input-group">
-                    <label for="mobile">Mobile Number</label>
+                    <label for="mobile">Mobile 📱</label><br>
                     <input type="text" id="mobile" class="input-field" placeholder="Enter your mobile number" required>
                     <span id="mobile-error" class="error-message"></span>
                 </div>
@@ -64,14 +138,15 @@
                 <button type="submit" class="login-button" id="login-btn" style="display: none;">Login</button>
             </form>
 
-            <p class="register-link">
-                Don't have an account? <a href="register.html">Register</a>
-            </p>
+
         </div>
     </main>
 
-    <footer class="footer">
-        <div>
+    <!-- Footer -->
+  <footer class="footer">
+      
+    <div class="row">
+        <div class="col-md-3">
             <h4>Company</h4>
             <ul>
                 <li>About Us</li>
@@ -81,7 +156,7 @@
                 <li>Sustainability</li>
             </ul>
         </div>
-        <div>
+        <div class="col-md-3">
             <h4>Support</h4>
             <ul>
                 <li>Contact</li>
@@ -90,7 +165,7 @@
                 <li>FAQ</li>
             </ul>
         </div>
-        <div>
+        <div class="col-md-3">
             <h4>Social</h4>
             <ul>
                 <li>Facebook</li>
@@ -100,7 +175,7 @@
                 <li>YouTube</li>
             </ul>
         </div>
-        <div>
+        <div class="col-md-3">
             <h4>Legal</h4>
             <ul>
                 <li>Terms</li>
@@ -108,14 +183,67 @@
                 <li>Refunds</li>
                 <li>Cookie Policy</li>
             </ul>
+       
+    </div>
+    <div class="text-center mt-4">
+        <div class="social-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
         </div>
-        <div>
-            <p style="text-align: center;">© 2025 Mobi-Comm. All Rights Reserved.</p>
-        </div>
-    </footer>
-
+        <p class="mt-3">© 2025 Mobi-Comm. All Rights Reserved.</p>
+    </div>
+</div>
+</footer>
     <script>
         let generatedOTP = null;
+
+        function selectRole(role) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.role-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Add active class to selected button
+            event.target.classList.add('active');
+
+            // Hide all forms
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.style.display = 'none';
+            });
+
+            // Show selected form
+            if (role === 'user') {
+                document.getElementById('user-login-form').style.display = 'block';
+            } else {
+                document.getElementById('admin-login-form').style.display = 'block';
+            }
+        }
+
+        // Your existing sendOTP and validateLogin functions remain the same
+
+        function validateAdminLogin() {
+    let username = document.getElementById('admin-username').value.trim();
+    let password = document.getElementById('admin-password').value.trim();
+
+    // Dummy credentials (replace with actual authentication logic)
+    const validUsername = "admin";
+    const validPassword = "admin123";
+
+    if (username === validUsername && password === validPassword) {
+        window.location.href = "admin.html"; // Redirect to admin page
+        return false; // Prevent default form submission
+    } else {
+        alert("Invalid username or password. Please try again.");
+        return false;
+    }
+}
+
+    </script>
+
+    <script>
 
         // Function to validate mobile number
         function validateLogin() {
@@ -135,6 +263,7 @@
                 mobileError.textContent = "";
             }
 
+
             // OTP validation
             if (!otp && generatedOTP) {
                 otpError.textContent = "Please enter the OTP.";
@@ -146,10 +275,13 @@
                 otpError.textContent = "";
             }
 
+            if (valid) {
+                // Redirect to user-login page
+                window.location.href = "user-login.html";
+            }
+
             return valid;
         }
-
-        // Function to send OTP
         function sendOTP() {
             let mobile = document.getElementById('mobile').value.trim();
             let mobileError = document.getElementById('mobile-error');
@@ -173,97 +305,92 @@
 
             alert(`OTP sent to ${mobile}. Your OTP is: ${generatedOTP}`);
         }
+
+        function validateLogin() {
+            let mobile = document.getElementById('mobile').value.trim();
+            let otp = document.getElementById('otp').value.trim();
+            let mobileError = document.getElementById('mobile-error');
+            let otpError = document.getElementById('otp-error');
+
+            let valid = true;
+
+            // Mobile number validation
+            let mobilePattern = /^[6-9]\d{9}$/;
+            if (!mobile || !mobilePattern.test(mobile)) {
+                mobileError.textContent = "Please enter a valid 10-digit mobile number.";
+                valid = false;
+            } else {
+                mobileError.textContent = "";
+            }
+
+            // OTP validation
+            if (!otp) {
+                otpError.textContent = "Please enter the OTP.";
+                valid = false;
+            } else if (otp !== generatedOTP) {
+                otpError.textContent = "Incorrect OTP. Please try again.";
+                valid = false;
+            } else {
+                otpError.textContent = "";
+            }
+
+            if (valid) {
+                console.log("Redirecting to user-login.html");
+                window.location.href = "user-login.html";  // Ensure this URL is correct
+                return false;  // Prevent form submission to avoid page reload
+            }
+
+            return false;
+        }
+
+
     </script>
 </body>
 
 </html>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-    }
-
     body {
-        background-color: #f0f8f8;
-        text-align: center;
-        color: #373E40;
+        background-color: #f8f9fa;
+        color: #495057;
         padding-top: 70px;
-        font-size: 16px;
+        /* Prevent content from being hidden under navbar */
     }
 
+    /* Navbar styles */
     .navbar {
         background: linear-gradient(to right, #488286, #B7D5D4);
-        padding: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: white;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        height: 60px;
+        padding: 10px 0;
     }
 
-    .navbar-logo {
+    .navbar-brand img {
         width: 50px;
         height: auto;
     }
 
-    .nav-links {
-        display: flex;
-        gap: 20px;
-    }
-
-    .nav-button {
-        padding: 10px 15px;
-        border: none;
-        background: #ffffff;
-        color: #004d40;
-        font-weight: bold;
-        cursor: pointer;
+    .navbar-nav .nav-link {
+        color: white !important;
+        padding: 8px 15px;
+        border-radius: 20px;
         transition: 0.3s;
     }
 
-    .nav-button:hover {
+    .navbar-nav .nav-link:hover {
         background: #00796b;
-        color: white;
     }
 
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background: white;
-        min-width: 150px;
+    .dropdown-menu {
+        background-color: white;
+        border: none;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
-        top: 100%;
-        left: 0;
-        overflow: hidden;
     }
 
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-
-    .dropdown-content a {
-        display: block;
-        padding: 10px;
-        text-decoration: none;
+    .dropdown-item {
         color: #004d40;
-        background: white;
     }
 
-    .dropdown-content a:hover {
+    .dropdown-item:hover {
         background: #00796b;
         color: white;
     }
@@ -292,6 +419,7 @@
         font-size: 18px;
     }
 
+
     .login-container {
         padding: 30px;
         margin-top: 80px;
@@ -305,7 +433,7 @@
 
     .login-title {
         font-size: 24px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         font-weight: bold;
         color: #1b5b6b;
     }
@@ -354,60 +482,82 @@
         font-size: 16px;
         font-weight: bold;
         transition: all 0.3s ease;
-        margin-top: 15px;
+        margin-top: 5px;
     }
 
     .login-button:hover {
         background-color: #1b5b6b;
+
+
         color: white;
         transform: scale(1.05);
     }
 
-    .register-link {
-        margin-top: 20px;
-    }
-
-    .register-link a {
-        text-decoration: none;
-        color: #00796b;
-    }
-
-    .register-link a:hover {
-        color: #004d40;
-    }
-
-    .footer {
-        background-color: #B7D5D4;
-        color: rgb(29, 28, 28);
-        padding: 20px 10px;
-        margin-top: 30px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        text-align: left;
+    .toggle-buttons {
+        background-color: #eef3f5;
+        color: #1b5b6b;
+        padding: 12px;
         width: 100%;
+        border-radius: 30px;
+        margin-top: 60px;
     }
 
-    .footer div {
-        padding: 10px;
+    .role-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
     }
 
-    .footer h4 {
-        margin-bottom: 10px;
+    .role-button {
+        background-color: #eef3f5;
+        color: #1b5b6b;
+        padding: 12px 30px;
+        border-radius: 20px;
+        border: 2px solid transparent;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: all 0.3s ease;
     }
 
-    .footer ul {
-        list-style: none;
-        padding: 0;
+    .role-button.active {
+        background-color: #1b5b6b;
+        color: white;
+        border-color: #1b5b6b;
     }
 
-    .footer ul li {
-        margin-bottom: 5px;
+    .role-button:hover {
+        transform: scale(1.05);
     }
 
-    .footer p {
-        text-align: center;
-        margin-top: 20px;
-        font-size: 14px;
-        color: #004d40;
+    .login-form {
+        display: none;
     }
+
+    .login-form.active {
+        display: block;
+    }
+
+
+    /* Footer styles */
+    .footer {
+            background-color: #B7D5D4;
+            color: rgb(29, 28, 28);
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+
+        .footer h4 {
+            margin-bottom: 10px;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 5px;
+        }
 </style>

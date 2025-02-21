@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Payment - Mobi-Comm</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --primary-color: #488286; /* Deep teal */
+      --secondary-color: #B7D5D4; /* Soft light teal */
+      --text-color: #333;
+      --background-color: #f0f4ff; /* Light, soft background */
+      --card-background: #fff;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --border-radius: 8px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Use min-height for better responsiveness */
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    .container {
+      background: var(--card-background);
+      max-width: 500px; /* Slightly wider */
+      width: 95%; /* Responsive width */
+      padding: 40px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 20px var(--shadow-color);
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-weight: 700; /* Bold */
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+    }
+
+    h2 {
+      color: var(--text-color);
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-top: 20px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      appearance: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="%23777"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 15px center;
+      background-color: white;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .payment-method {
+      display: flex;
+      justify-content: space-around;
+      margin: 25px 0;
+    }
+
+    .method-btn {
+      background: #fff;
+      border: 2px solid #ddd;
+      padding: 12px 20px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .method-btn:hover,
+    .method-btn.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 8px var(--shadow-color);
+    }
+
+    .method-btn i {
+      margin-right: 8px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="month"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      color: var(--text-color);
+    }
+
+    .pay-button {
+      background: var(--primary-color);
+      color: white;
+      padding: 16px 24px;
+      border: none;
+      width: 100%;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      transition: background 0.3s ease, transform .2s ease-in-out; /* Added transform for effect */
+    }
+
+    .pay-button:hover {
+       background-color:#3d6b6a; /* Darker shade on hover */
+       transform : scale(1.05); /* Slight scaling effect on hover */
+     }
+
+     /* Smaller screens */
+     @media (max-width: 600px) {
+       .container {
+         padding: 20px;
+       }
+
+       .payment-method {
+         flex-direction: column; 
+       }
+
+       .method-btn {
+         margin-bottom:10px; 
+       }
+     }
+   </style>
+</head>
+<body>
+   <div class="container">
+     <h1>Secure Payment</h1>
+     <h2 id="planInfo">Loading...</h2>
+     <p id="amountInfo"></p>
+
+     <h2>Select Payment Method</h2>
+     <div class="payment-method">
+       <button class="method-btn" onclick="selectMethod('upi')"><i class="fas fa-mobile-alt"></i> UPI</button>
+       <button class="method-btn" onclick="selectMethod('bank')"><i class="fas fa-university"></i> Bank Transfer</button>
+       <button class="method-btn" onclick="selectMethod('card')"><i class="far fa-credit-card"></i> Card</button>
+       <button class="method-btn" onclick="selectMethod('paypal')"><i class="fab fa-paypal"></i> PayPal</button>
+     </div>
+
+     <div id="upiFields" class="hidden">
+       <input type="text" id="upiId" placeholder="Enter UPI ID">
+     </div>
+     <div id="bankFields" class="hidden">
+       <input type="text" id="bankAccount" placeholder="Bank Account Number">
+       <input type="text" id="ifscCode" placeholder="IFSC Code">
+     </div>
+     <div id="cardFields" class="hidden">
+       <input type="text" id="cardNumber" placeholder="Card Number">
+       <input type="month" id="expiryDate">
+       <input type="password" id="cvv" placeholder="CVV">
+     </div>
+     <div id="paypalFields" class="hidden">
+       <input type="email" id="paypalEmail" placeholder="Enter PayPal Email">
+     </div>
+
+     <button class="pay-button" onclick="processPayment()">Pay Now</button>
+   </div>
+
+   <script>
+     function getQueryParams() {
+       const params = new URLSearchParams(window.location.search);
+       return {
+         plan : params.get("plan") || "Unknown Plan",
+         amount : params.get("amount") || "0",
+       };
+     }
+
+     const queryParams = getQueryParams();
+     document.getElementById("planInfo").textContent = `Plan : ${queryParams.plan}`;
+     document.getElementById("amountInfo").textContent = `Amount : ₹${queryParams.amount}`;
+
+     function selectMethod(method) {
+       document.querySelectorAll(".hidden").forEach(div => div.style.display = "none");
+       document.querySelectorAll(".method-btn").forEach(btn => btn.classList.remove("active"));
+       document.getElementById(method + "Fields").style.display = "block";
+       
+        const buttons = document.querySelectorAll('.method-btn');
+        buttons.forEach(button => {
+            if (button.textContent.toLowerCase().includes(method)) {
+                button.classList.add('active');
+            }
+        });
+     }
+
+     function processPayment() {
+       const method = document.querySelector(".method-btn.active");
+       if (!method) return alert("Please select a payment method.");
+
+       const txnId = "TXN" + Math.floor(Math.random() * 1000000000);
+       window.location.href = `payment confirmation.html?plan=${queryParams.plan}&amount=${queryParams.amount}&method=${method.textContent.toLowerCase()}&txn=${txnId}`;
+     }
+   </script>
+</body>
+</html>

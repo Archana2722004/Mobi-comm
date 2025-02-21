@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef7f8;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .confirmation-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* New Animated Tick */
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+            animation: popIn 0.5s ease-in-out;
+        }
+        .success-icon::after {
+            content: "";
+            width: 12px;
+            height: 25px;
+            border: solid white;
+            border-width: 0 6px 6px 0;
+            transform: rotate(45deg);
+            position: absolute;
+            top: 16px;
+            left: 25px;
+            animation: tickMark 0.5s ease-in-out;
+        }
+        
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes tickMark {
+            0% { transform: scale(0) rotate(45deg); }
+            100% { transform: scale(1) rotate(45deg); }
+        }
+        
+        .details {
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+            background: #f7f7f7;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+        
+        .details p {
+            margin: 8px 0;
+        }
+        
+        .back-button {
+            background: #41b9c9;
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 100%;
+        }
+        
+        .back-button:hover {
+            background: #2b424b;
+        }
+
+        /* Celebration Effect */
+        .effect-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .spark, .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: gold;
+            border-radius: 50%;
+            animation: sparkEffect 1s linear;
+        }
+        
+        .confetti {
+            width: 12px;
+            height: 12px;
+            background: red;
+            border-radius: 2px;
+        }
+        
+        @keyframes sparkEffect {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+        
+        @keyframes confettiEffect {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(150px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="effect-container" id="effect-container"></div> <!-- Celebration Effect Container -->
+
+    <div class="confirmation-card">
+        <div class="success-icon"></div>  <!-- New Animated Tick -->
+        <h1>Payment Successful!</h1>
+        <div class="details" id="confirmation-details"></div>
+        <button class="back-button" onclick="goBack()">Back to Home</button>
+    </div>
+
+    <script>
+        // Get transaction details from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan') || 'Unknown Plan';
+        const amount = urlParams.get('amount') || '0';
+        const method = urlParams.get('method') || 'N/A';
+        const txn = urlParams.get('txn') || 'Not Available';
+
+        // Display the details
+        document.getElementById('confirmation-details').innerHTML = `
+            <p><strong>Plan:</strong> ${plan}</p>
+            <p><strong>Amount Paid:</strong> ₹${amount}</p>
+            <p><strong>Payment Method:</strong> ${method}</p>
+            <p><strong>Transaction ID:</strong> ${txn}</p>
+        `;
+
+        function goBack() {
+            window.location.href = "front page.html?success=true"; // Redirect back with success flag
+        }
+
+        // Function to create sparks & confetti
+        function createCelebration() {
+            const effectContainer = document.getElementById('effect-container');
+            
+            for (let i = 0; i < 30; i++) {
+                let spark = document.createElement('div');
+                spark.classList.add('spark');
+                spark.style.left = `${Math.random() * 100}%`;
+                spark.style.top = `${Math.random() * 100}%`;
+                effectContainer.appendChild(spark);
+
+                let confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = `50%`;
+                confetti.style.top = `50%`;
+                confetti.style.background = randomColor();
+                confetti.style.animation = `confettiEffect 1s ease-out`;
+                effectContainer.appendChild(confetti);
+
+                setTimeout(() => {
+                    spark.remove();
+                    confetti.remove();
+                }, 1000);
+            }
+        }
+
+        // Function to generate random colors for confetti
+        function randomColor() {
+            const colors = ["#ff4757", "#1e90ff", "#2ed573", "#ff6b81", "#ffa502", "#3742fa"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Trigger celebration on page load
+        window.onload = function () {
+            createCelebration();
+        };
+    </script>
+
+</body>
+</html>
